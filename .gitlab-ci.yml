@@ -18,3 +18,7 @@ test:
     - cmake --build ./build/ --config LSan  --target check
     - cmake --build ./build/ --config MSan  --target check
     - cmake --build ./build/ --config UBSan --target check
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml

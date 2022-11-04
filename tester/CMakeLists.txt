@@ -22,7 +22,7 @@ foreach(test_dir IN LISTS test_directories)
     )
 endforeach()
 
-set(CMAKE_CTEST_ARGUMENTS --output-on-failure -C $<CONFIG>)
+set(CMAKE_CTEST_ARGUMENTS --output-junit ${PROJECT_SOURCE_DIR}/report.xml --output-on-failure -C $<CONFIG>)
 add_custom_target(check
     COMMAND ${CMAKE_CTEST_COMMAND} ${CMAKE_CTEST_ARGUMENTS}
     DEPENDS image-transformer image-matcher)
