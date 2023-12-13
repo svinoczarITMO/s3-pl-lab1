@@ -1,4 +1,6 @@
 #include "BMPConverter.h"
+#include "HeaderStructure.h"
+#include "ImagePixelStructure.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,7 +30,7 @@ enum write_status to_bmp(FILE* out, struct image* img) {
 
     fwrite(&new, sizeof(struct bmp_header), 1, out);
 
-    for (int16_t y = 0; y < img->height; y++) {
+    for (uint16_t y = 0; y < img->height; y++) {
         fwrite(&(img->data[y * img->width]), sizeof(struct pixel), img->width, out);
 
         uint32_t paddingBytes = (4 - ((img->width * sizeof(struct pixel)) % 4)) % 4;
@@ -63,7 +65,7 @@ enum read_status from_bmp(FILE* in, struct image* img) {
 
     fseek(in, old.bOffBits, SEEK_SET);
 
-    for (int16_t y = 0; y < img->height; y++) {
+    for (uint16_t y = 0; y < img->height; y++) {
         fread(&(img->data[y * img->width]), sizeof(struct pixel), img->width, in);
 
         uint32_t paddingBytes = (4 - ((img->width * sizeof(struct pixel)) % 4)) % 4;

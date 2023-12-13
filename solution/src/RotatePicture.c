@@ -15,8 +15,8 @@ struct image rotate(struct image source) {
         return newImg;
     }
 
-    for (int16_t y = 0; y < source.height; y++) {
-        for (int16_t x = 0; x < source.width; x++) {
+    for (uint16_t y = 0; y < source.height; y++) {
+        for (uint16_t x = 0; x < source.width; x++) {
             newImg.data[x * newImg.width + newImg.width - y - 1] = source.data[y * source.width + x];
         }
     }
