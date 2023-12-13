@@ -34,24 +34,23 @@ enum read_status from_bmp(FILE* in, struct image* img)
         fseek(in, paddingBytes, SEEK_CUR);
     }
 
-    free(img -> data);
-
+    free(img ->  data);
     return READ_OK;
 }
 
 enum write_status to_bmp(FILE* out, struct image* img){
     struct bmp_header new = {
         .bfType = 0x4d42,
-        .bfileSize = img->width * img->height * sizeof(struct pixel) + 54,
+        .bfileSize = (img->width * img->height * sizeof(struct pixel)+ img->height* ( (4 - ((sizeof(struct pixel) * img->width) % 4)) )) * sizeof(struct bmp_header),
         .bfReserved = 0,
-        .bOffBits = 54,
+        .bOffBits = sizeof(struct ),
         .biSize = 40,
         .biWidth = img->width,
         .biHeight = img->height,
         .biPlanes = 1,
         .biBitCount = 24,
         .biCompression = 0,
-        .biSizeImage = img->width * img->height * sizeof(struct pixel),
+        .biSizeImage = img->width * img->height * sizeof(struct pixel)+ ( (4 - ((sizeof(struct pixel) * img->width) % 4)) ) * img->height,
         .biXPelsPerMeter = 0,
         .biYPelsPerMeter = 0,
         .biClrUsed = 0,
