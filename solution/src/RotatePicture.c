@@ -19,6 +19,6 @@ struct image rotate(struct image source){
             newImg.data[x * newImg.width + newImg.width - y - 1] = source.data[y * source.width + x];
         }
     }
-
+    free(source.data);
     return newImg;
 }

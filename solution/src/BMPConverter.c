@@ -34,7 +34,6 @@ enum read_status from_bmp(FILE* in, struct image* img)
         fseek(in, paddingBytes, SEEK_CUR);
     }
 
-    free(img ->  data);
     return READ_OK;
 }
 
