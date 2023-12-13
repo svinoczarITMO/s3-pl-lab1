@@ -1,6 +1,6 @@
 #ifndef HEADER_H
 #define HEADER_H
-
+#include "ImagePixelStructure.h"
 #include <stdint.h>
 
 #pragma pack(push, 1)
