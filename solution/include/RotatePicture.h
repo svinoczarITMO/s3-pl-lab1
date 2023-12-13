@@ -1,6 +1,8 @@
 #ifndef MODULE_OF_ROTATE_PICTURE
 #define MODULE_OF_ROTATE_PICTURE
 
+#include <stdint.h>
+
 struct pixel{
     uint8_t b, g, r;
 };
