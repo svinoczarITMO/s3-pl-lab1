@@ -29,7 +29,6 @@ int main(int argc, char** argv){
             printf("Write error\n");
         }
         
-        free(imgRotated.data);
     } else if (statusFromBMP == READ_INVALID_SIGNATURE) {
         printf("Invalid signature\n");
     } else if (statusFromBMP == READ_INVALID_BITS) {
