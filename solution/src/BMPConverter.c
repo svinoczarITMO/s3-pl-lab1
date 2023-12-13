@@ -1,11 +1,10 @@
-#include "BMPConverter.h"
-#include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 
 #pragma pack(push, 1)
-struct bmp_header 
+struct bmp_header
 {
     uint16_t bfType;
     uint32_t bfileSize;
