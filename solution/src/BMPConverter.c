@@ -43,7 +43,7 @@ enum write_status to_bmp(FILE* out, struct image* img){
         .bfType = 0x4d42,
         .bfileSize = (img->width * img->height * sizeof(struct pixel)+ img->height* ( (4 - ((sizeof(struct pixel) * img->width) % 4)) )) * sizeof(struct bmp_header),
         .bfReserved = 0,
-        .bOffBits = sizeof(struct ),
+        .bOffBits = sizeof(struct bmp_header),
         .biSize = 40,
         .biWidth = img->width,
         .biHeight = img->height,
