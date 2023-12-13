@@ -1,5 +1,6 @@
 #include "RotatePicture.h"
-#include <stdlib.h> 
+#include <stdint.h>
+#include <stdlib.h>
 
 struct image rotate(struct image source){
     if (source!=NULL){
