@@ -1,6 +1,7 @@
 #ifndef CONVERTER_OF_BMP
 #define CONVERTER_OF_BMP
 
+#include <stdint.h>
 #include <stdio.h>
 
 
@@ -24,15 +25,6 @@ struct bmp_header
     uint32_t biClrImportant;
 };
 #pragma pack(pop)
-
-struct pixel{
-    uint8_t b, g, r;
-};
-
-struct image{
-    uint16_t width, height;
-    struct pixel* data;
-};
 
 enum read_status {
     READ_OK = 0,
