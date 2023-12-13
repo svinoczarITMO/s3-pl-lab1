@@ -1,3 +1,5 @@
+#include "HeaderStructure.h"
+#include "ImagePixelStructure.h"
 #include "BMPConverter.h"
 #include <stdint.h>
 #include <stdio.h>
