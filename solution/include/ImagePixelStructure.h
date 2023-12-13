@@ -1,5 +1,5 @@
-#ifndef STRUCTURE_UTIL_H
-#define STRUCTURE_UTIL_H
+#ifndef IMAGE_UTIL_H
+#define IMAGE_UTIL_H
 
 #include <stdint.h>
 #include <stdio.h>

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv){
     if (argc != 3) {
         printf("Usage: %s <input_file> <output_file>\n", argv[0]);
         return 1;
@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    struct image img = {.width = 0, .height = 0};
+    struct image img = {.width = 0, .height = 0, .data = NULL};
     enum read_status statusFromBMP = from_bmp(file1, &img);
     
     if (statusFromBMP == READ_OK) {
@@ -41,5 +41,4 @@ int main(int argc, char** argv) {
     fclose(file1);
     fclose(file2);
 
-    return 0;
-}
+    return 0;}

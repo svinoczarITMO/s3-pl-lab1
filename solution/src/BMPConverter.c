@@ -1,11 +1,43 @@
-#include "BMPConverter.h"
-#include "HeaderStructure.h"
 #include "ImagePixelStructure.h"
+#include "HeaderStructure.h"
+#include "BMPConverter.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-enum write_status to_bmp(FILE* out, struct image* img) {
+enum read_status from_bmp(FILE* in, struct image* img)
+{
+    struct bmp_header old;
+    size_t bytesRead = fread(&old, sizeof(struct bmp_header), 1, in);
+    if (bytesRead != 1) {
+        return READ_INVALID_HEADER;
+    }
+
+    if (old.bfType != 0x4d42) {
+        return READ_INVALID_SIGNATURE;
+    }
+
+    img->width = old.biWidth;
+    img->height = old.biHeight;
+
+    img->data = (struct pixel*)malloc(sizeof(struct pixel) * img->width * img->height);
+    if (img->data == NULL) {
+        return READ_INVALID_BITS;
+    }
+
+    fseek(in, old.bOffBits, SEEK_SET);
+
+    for (uint16_t y = 0; y < img->height; y++) {
+        fread(&(img->data[y * img->width]), sizeof(struct pixel), img->width, in);
+
+        uint32_t paddingBytes = (4 - ((img->width * sizeof(struct pixel)) % 4)) % 4;
+        fseek(in, paddingBytes, SEEK_CUR);
+    }
+
+    return READ_OK;
+}
+
+enum write_status to_bmp(FILE* out, struct image* img){
     struct bmp_header new = {
         .bfType = 0x4d42,
         .bfileSize = img->width * img->height * sizeof(struct pixel) + 54,
@@ -42,35 +74,4 @@ enum write_status to_bmp(FILE* out, struct image* img) {
 
     free(img->data);
     return WRITE_OK;
-}
-
-enum read_status from_bmp(FILE* in, struct image* img) {
-    struct bmp_header old;
-    size_t bytesRead = fread(&old, sizeof(struct bmp_header), 1, in);
-    if (bytesRead != 1) {
-        return READ_INVALID_HEADER;
-    }
-
-    if (old.bfType != 0x4d42) {
-        return READ_INVALID_SIGNATURE;
-    }
-
-    img->width = old.biWidth;
-    img->height = old.biHeight;
-
-    img->data = (struct pixel*)malloc(sizeof(struct pixel) * img->width * img->height);
-    if (img->data == NULL) {
-        return READ_INVALID_BITS;
-    }
-
-    fseek(in, old.bOffBits, SEEK_SET);
-
-    for (uint16_t y = 0; y < img->height; y++) {
-        fread(&(img->data[y * img->width]), sizeof(struct pixel), img->width, in);
-
-        uint32_t paddingBytes = (4 - ((img->width * sizeof(struct pixel)) % 4)) % 4;
-        fseek(in, paddingBytes, SEEK_CUR);
-    }
-
-    return READ_OK;
 }

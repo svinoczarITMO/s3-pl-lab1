@@ -1,7 +1,7 @@
-#ifndef MODULE_OF_ROTATE_PICTURE
-#define MODULE_OF_ROTATE_PICTURE
+#ifndef ROTATE_PICTURE_H
+#define ROTATE_PICTURE_H
 
-#include <stdint.h>
+#include "ImagePixelStructure.h"
 
 struct image rotate(struct image source);
 
