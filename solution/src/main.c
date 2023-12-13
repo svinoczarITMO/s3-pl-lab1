@@ -17,7 +17,10 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    struct image img = {.width = 0, .height = 0};
+    struct image img;
+    img.width = 0;
+    img.height = 0;
+    img.data = NULL;
     enum read_status statusFromBMP = from_bmp(file1, &img);
     
     if (statusFromBMP == READ_OK) {
