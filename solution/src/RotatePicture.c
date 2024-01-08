@@ -3,7 +3,7 @@
 
 struct image rotate(struct image source){
 
-    if (source == NULL){
+    if (source.data == NULL){
         exit(EXIT_FAILURE);
     }
     struct image newImg = {
