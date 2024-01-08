@@ -2,6 +2,10 @@
 #include <stdlib.h> 
 
 struct image rotate(struct image source){
+
+    if (source == NULL){
+        exit(EXIT_FAILURE);
+    }
     struct image newImg = {
         .width = source.height,
         .height = source.width,
