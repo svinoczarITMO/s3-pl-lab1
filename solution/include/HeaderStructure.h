@@ -24,4 +24,6 @@ struct bmp_header
 };
 #pragma pack(pop)
 
+typedef struct bmp_header* BmpHeader;
+
 #endif
