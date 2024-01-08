@@ -81,13 +81,14 @@ enum write_status to_bmp(FILE* out, struct image* img){
         return WRITE_ERROR;
     }
 
+    uint8_t paddingBytes = padding_calc(img -> width);
+
     for (uint16_t y = 0; y < img->height; y++) {
 
         if (fwrite(&(img->data[y * img->width]), sizeof(struct pixel), img->width, out) != img->width) {
             return WRITE_ERROR;
         }
 
-        uint8_t paddingBytes = padding_calc(img -> width);
         for (uint32_t i = 0; i < paddingBytes; i++) {
             uint8_t padding = 0;
             if ( fwrite(&padding, sizeof(uint8_t), 1, out)!= 1) {
