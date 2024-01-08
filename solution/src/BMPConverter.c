@@ -5,6 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define BfType 0x4d42
+
+uint8_t padding_calc(uint16_t w){
+    return (uint8_t) (4 - ((w * sizeof(struct pixel)) % 4)) % 4;
+}
+
 enum read_status from_bmp(FILE* in, struct image* img)
 {
     struct bmp_header old;
@@ -13,7 +19,7 @@ enum read_status from_bmp(FILE* in, struct image* img)
         return READ_INVALID_HEADER;
     }
 
-    if (old.bfType != 0x4d42) {
+    if (old.bfType != BfType) {
         return READ_INVALID_SIGNATURE;
     }
 
@@ -25,13 +31,23 @@ enum read_status from_bmp(FILE* in, struct image* img)
         return READ_INVALID_BITS;
     }
 
-    fseek(in, old.bOffBits, SEEK_SET);
+    if (fseek(in, bmp_header_local.bOffBits, SEEK_SET) != 0) {
+        free(img->data);
+        return READ_INVALID_BITS;
+    }
+
 
     for (uint16_t y = 0; y < img->height; y++) {
-        fread(&(img->data[y * img->width]), sizeof(struct pixel), img->width, in);
+        bytesRead = fread(&(img->data[y * img->width]), SIZE_PIXEL, img->width, in);
+        if (bytesRead != img->width) {
+            free(img->data);
+            return READ_INVALID_BITS;
+        }
+        if (fseek(in, paddingSize, SEEK_CUR)>=4){
+            free(img->data);
+            return READ_INVALID_BITS;
+        }
 
-        uint32_t paddingBytes = (4 - ((img->width * sizeof(struct pixel)) % 4)) % 4;
-        fseek(in, paddingBytes, SEEK_CUR);
     }
 
     return READ_OK;
