@@ -13,8 +13,8 @@ uint8_t padding_calc(uint16_t w){
 
 enum read_status from_bmp(FILE* in, struct image* img)
 {
-    struct BmpHeader old;
-    size_t bytesRead = fread(&old, sizeof(struct BmpHeader), 1, in);
+    BmpHeader old;
+    size_t bytesRead = fread(&old, sizeof(BmpHeader), 1, in);
     if (bytesRead != 1) {
         return READ_INVALID_HEADER;
     }
@@ -55,7 +55,7 @@ enum read_status from_bmp(FILE* in, struct image* img)
 }
 
 enum write_status to_bmp(FILE* out, struct image* img){
-    struct BmpHeader new = {
+    BmpHeader new = {
         .bfType = 0x4d42,
         .bfileSize = (img->width * img->height * sizeof(struct pixel)+ img->height* ( (4 - ((sizeof(struct pixel) * img->width) % 4)) )) * sizeof(struct bmp_header),
         .bfReserved = 0,
@@ -77,7 +77,7 @@ enum write_status to_bmp(FILE* out, struct image* img){
         return WRITE_ERROR;
     }
 
-    if (fwrite(&new, sizeof(struct BmpHeader), 1, out) != 1) {
+    if (fwrite(&new, sizeof(BmpHeader), 1, out) != 1) {
         return WRITE_ERROR;
     }
 
