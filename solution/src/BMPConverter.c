@@ -31,11 +31,12 @@ enum read_status from_bmp(FILE* in, struct image* img)
         return READ_INVALID_BITS;
     }
 
-    if (fseek(in, bmp_header_local.bOffBits, SEEK_SET) != 0) {
+    if (fseek(in, old.bOffBits, SEEK_SET) != 0) {
         free(img->data);
         return READ_INVALID_BITS;
     }
 
+    uint8_t paddingSize = padding_calc(img -> width);
 
     for (uint16_t y = 0; y < img->height; y++) {
         bytesRead = fread(&(img->data[y * img->width]), sizeof(struct pixel), img->width, in);
