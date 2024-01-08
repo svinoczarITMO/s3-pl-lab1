@@ -6,6 +6,10 @@
 #include <stdlib.h>
 
 #define BfType 0x4d42
+#define Zero_value 0
+#define Bi_planes 1
+#define Bi_size 40
+#define Bit_count 24
 
 uint8_t padding_calc(uint16_t w){
     return (uint8_t) (4 - ((w * sizeof(struct pixel)) % 4)) % 4;
@@ -56,21 +60,21 @@ enum read_status from_bmp(FILE* in, struct image* img)
 
 enum write_status to_bmp(FILE* out, struct image* img){
     BmpHeader new = {
-        .bfType = 0x4d42,
+        .bfType = BfType,
         .bfileSize = (img->width * img->height * sizeof(struct pixel)+ img->height* ( (4 - ((sizeof(struct pixel) * img->width) % 4)) )) * sizeof(struct bmp_header),
-        .bfReserved = 0,
+        .bfReserved = Zero_value,
         .bOffBits = sizeof(struct bmp_header),
-        .biSize = 40,
+        .biSize = Bi_size,
         .biWidth = img->width,
         .biHeight = img->height,
-        .biPlanes = 1,
-        .biBitCount = 24,
-        .biCompression = 0,
+        .biPlanes = Bi_planes,
+        .biBitCount = Bit_count,
+        .biCompression = Zero_value,
         .biSizeImage = img->width * img->height * sizeof(struct pixel)+ ( (4 - ((sizeof(struct pixel) * img->width) % 4)) ) * img->height,
-        .biXPelsPerMeter = 0,
-        .biYPelsPerMeter = 0,
-        .biClrUsed = 0,
-        .biClrImportant = 0
+        .biXPelsPerMeter = Zero_value,
+        .biYPelsPerMeter = Zero_value,
+        .biClrUsed = Zero_value,
+        .biClrImportant = Zero_value
     };
 
     if (out == NULL) {
