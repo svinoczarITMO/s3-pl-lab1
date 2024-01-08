@@ -38,7 +38,7 @@ enum read_status from_bmp(FILE* in, struct image* img)
 
 
     for (uint16_t y = 0; y < img->height; y++) {
-        bytesRead = fread(&(img->data[y * img->width]), SIZE_PIXEL, img->width, in);
+        bytesRead = fread(&(img->data[y * img->width]), sizeof(struct pixel), img->width, in);
         if (bytesRead != img->width) {
             free(img->data);
             return READ_INVALID_BITS;
