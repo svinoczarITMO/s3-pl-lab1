@@ -91,7 +91,7 @@ enum write_status to_bmp(FILE* out, struct image* img){
         for (uint32_t i = 0; i < paddingBytes; i++) {
             uint8_t padding = 0;
             if ( fwrite(&padding, sizeof(uint8_t), 1, out)!= 1) {
-                return WRITE_PADDING_ERROR;
+                return WRITE_ERROR;
             }
 
         }
